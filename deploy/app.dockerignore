@@ -1,0 +1,6 @@
+deploy/
+*.ini
+LICENSE
+.gitignore
+.env.example
+README.md

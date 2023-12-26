@@ -2,7 +2,7 @@ services:
   postgres-database:
       image: postgres:15
       env_file:
-        - ../.env
+        - .env
       environment:
         POSTGRES_USER: ${DB_USER_NAME}
         POSTGRES_PASSWORD: ${DB_USER_PASSWORD}
@@ -23,12 +23,12 @@ services:
         context:
           ../
         dockerfile:
-          deploy/Dockerfile
+          deploy/app.Dockerfile
       depends_on:
         postgres-database:
           condition: service_healthy
       env_file:
-        - ../.env
+        - .env
       environment:
         DATABASE_HOST: postgres_database
       ports:

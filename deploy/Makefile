@@ -1,0 +1,1 @@
+# docker compose --env-file /Users/thechosenone/PycharmProjects/fastapi-template/.env -f docker-compose.yml up

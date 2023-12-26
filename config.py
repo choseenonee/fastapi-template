@@ -10,8 +10,8 @@ ALGORITHM = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 
-HOST = os.getenv("HOST")
-PORT = int(os.getenv("PORT"))
+# HOST = os.getenv("HOST")
+# PORT = int(os.getenv("PORT"))
 
 
 DB_USER_NAME = os.getenv("DB_USER_NAME")
