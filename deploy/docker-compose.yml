@@ -1,0 +1,35 @@
+services:
+  postgres-database:
+      image: postgres:15
+      env_file:
+        - ../.env
+      environment:
+        POSTGRES_USER: ${DB_USER_NAME}
+        POSTGRES_PASSWORD: ${DB_USER_PASSWORD}
+        POSTGRES_DB: ${DB_NAME}
+        POSTGRES_PORT: "5432"
+      ports:
+        - "${DB_PORT}:${DB_PORT}"
+      healthcheck:
+        test: [ "CMD-SHELL", "pg_isready -h localhost -p $$DB_PORT" ]
+        interval: 3s
+        timeout: 3s
+        retries: 5
+      volumes:
+        - /Users/thechosenone/PycharmProjects/fastApiProject/deploy/db_data
+
+  python-fastapi:
+      build:
+        context:
+          ../
+        dockerfile:
+          deploy/Dockerfile
+      depends_on:
+        postgres-database:
+          condition: service_healthy
+      env_file:
+        - ../.env
+      environment:
+        DATABASE_HOST: postgres_database
+      ports:
+        - "${PORT}:${PORT}"
