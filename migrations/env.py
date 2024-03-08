@@ -61,11 +61,24 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+    from sqlalchemy import create_engine
+    import re
+
+    from config import DB_HOST, DB_PORT, DB_NAME, DB_USER_NAME, DB_USER_PASSWORD
+
+    url_tokens = {
+        "DB_HOST": DB_HOST,
+        "DB_PORT": DB_PORT,
+        "DB_NAME": DB_NAME,
+        "DB_USER_NAME": DB_USER_NAME,
+        "DB_USER_PASSWORD": DB_USER_PASSWORD,
+    }
+
+    url = config.get_main_option("sqlalchemy.url")
+
+    url = re.sub(r"\${(.+?)}", lambda m: url_tokens[m.group(1)], url)
+
+    connectable = create_engine(url)
 
     with connectable.connect() as connection:
         context.configure(
